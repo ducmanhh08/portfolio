@@ -7,43 +7,17 @@ import { GlassCard } from "./GlassCard";
 
 const experiences = [
   {
-    title: "Senior Frontend Engineer",
-    company: "Tech Startup Inc.",
-    period: "2023 - Present",
+    title: "AI Full Stack Engineer",
+    company: "Home Invease",
+    period: "2024 - 2025",
     description:
-      "Leading frontend development initiatives, mentoring junior developers, and architecting scalable component systems.",
+      "Engineering mobile AI-powered solutions for home inventory applications.",
     achievements: [
-      "Improved app performance by 40%",
-      "Mentored 5+ junior developers",
-      "Led design system implementation",
+      "Developed integration workflows on integrated Ollama and LangSmith platforms to enhance user query handling and response generation.",
+      "Implemented custom ChromaDB vector database management system to optimize data retrieval latency by 40% and storage for AI applications.",
+      "Constructed automated item recognition pipelines using PyTorch and OpenCV, achieving 95% accuracy in identifying household items from user-uploaded images and receipts.",
     ],
-    tags: ["React", "TypeScript", "Next.js"],
-  },
-  {
-    title: "Full Stack Developer",
-    company: "Digital Solutions Ltd.",
-    period: "2021 - 2023",
-    description:
-      "Developed and maintained full-stack applications, implemented new features, and optimized backend performance.",
-    achievements: [
-      "Built 15+ production features",
-      "Reduced API response time by 60%",
-      "Implemented CI/CD pipelines",
-    ],
-    tags: ["React", "Node.js", "PostgreSQL"],
-  },
-  {
-    title: "Junior Developer",
-    company: "Web Development Agency",
-    period: "2020 - 2021",
-    description:
-      "Started my career building responsive websites and learning modern web development practices.",
-    achievements: [
-      "Delivered 20+ client projects",
-      "Mastered React fundamentals",
-      "Contributed to open source",
-    ],
-    tags: ["HTML/CSS", "JavaScript", "React"],
+    tags: ["React", "TypeScript", "Next.js", "FastAPI", "Firebase", "JWT"],
   },
 ];
 
@@ -103,17 +77,15 @@ export function Experience() {
 
               {/* Content - Alternating layout for desktop */}
               <div
-                className={`md:grid md:grid-cols-2 gap-8 ${
-                  index % 2 === 0 ? "md:flex-row-reverse" : ""
-                }`}
+                className={`md:grid md:grid-cols-2 gap-8 ${index % 2 === 0 ? "md:flex-row-reverse" : ""
+                  }`}
               >
                 {/* Text Content */}
                 <div
-                  className={`md:col-span-1 ${
-                    index % 2 === 0
-                      ? "md:text-right md:pr-8"
-                      : "md:pl-8 md:text-left"
-                  }`}
+                  className={`md:col-span-1 ${index % 2 === 0
+                    ? "md:text-right md:pr-8"
+                    : "md:pl-8 md:text-left"
+                    }`}
                 >
                   <GlassCard className="p-6 md:bg-transparent md:border-0 md:p-0">
                     <div className="flex items-start gap-4 md:gap-0 md:block">
@@ -152,7 +124,7 @@ export function Experience() {
                             className="text-sm text-gray-400 flex items-start gap-2"
                           >
                             <span className="text-purple-400 flex-shrink-0">
-                              ✓
+                              •
                             </span>
                             {achievement}
                           </li>

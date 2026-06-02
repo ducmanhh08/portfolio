@@ -3,16 +3,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { SectionContainer } from "./SectionContainer";
-import { GlassCard } from "./GlassCard";
 import { Button } from "./Button";
 import { ChevronDown } from "lucide-react";
-
-const stats = [
-  { label: "Years Experience", value: "5+" },
-  { label: "Projects Completed", value: "50+" },
-  { label: "Happy Clients", value: "30+" },
-  { label: "Code Commits", value: "10K+" },
-];
 
 export function About() {
   const containerVariants = {
@@ -41,10 +33,11 @@ export function About() {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: "0px" }}
       >
+
         {/* Section Header */}
-        <motion.div variants={itemVariants} className="mb-16">
+        <motion.div variants={itemVariants} className="mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             <span className="text-white">About </span>
             <span className="gradient-text">Me</span>
@@ -52,10 +45,12 @@ export function About() {
           <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></div>
         </motion.div>
 
-        {/* Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Bio */}
-          <motion.div variants={itemVariants} className="space-y-4">
+        {/* Stats Grid Above About Content */}
+
+
+        {/* About Content with Image Placeholder */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-10 items-center">
+          <motion.div variants={itemVariants} className="space-y-6">
             <p className="text-lg text-gray-300 leading-relaxed">
               I'm a passionate full-stack developer with a love for creating
               elegant solutions to complex problems. With a background in
@@ -73,51 +68,30 @@ export function About() {
               contributing to open-source projects, or sharing knowledge with
               the developer community.
             </p>
-            <motion.div
-              variants={itemVariants}
-              className="pt-4"
-            >
-              <Button size="lg" variant="outline">
+            <motion.div variants={itemVariants} className="pt-4">
+              <a
+                href="/ManhNguyen_SWE_Resume.pdf"
+                download
+                className="inline-flex items-center justify-center rounded-lg border-2 border-purple-500 px-8 py-4 text-lg font-medium text-purple-400 transition-all duration-300 hover:bg-purple-500/10 hover:shadow-lg"
+              >
                 Download Resume
-              </Button>
+              </a>
             </motion.div>
           </motion.div>
 
-          {/* Stats */}
-          <motion.div
-            variants={containerVariants}
-            className="grid grid-cols-2 gap-6"
-          >
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-              >
-                <GlassCard className="p-6 h-full flex flex-col justify-center items-center text-center group hover:scale-105">
-                  <motion.div
-                    className="text-4xl md:text-5xl font-bold gradient-text mb-2"
-                    animate={{ scale: [1, 1.05, 1] }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      delay: index * 0.2,
-                    }}
-                  >
-                    {stat.value}
-                  </motion.div>
-                  <p className="text-sm md:text-base text-gray-400">
-                    {stat.label}
-                  </p>
-                </GlassCard>
-              </motion.div>
-            ))}
+          <motion.div variants={itemVariants} className="flex justify-center lg:justify-end">
+            <img
+              src="/person.png"
+              alt="Manh Nguyen"
+              className="w-full max-w-[360px] rounded-[1.5rem] object-cover"
+            />
           </motion.div>
         </div>
       </motion.div>
 
       {/* Scroll Indicator */}
       <motion.div
-        className="flex justify-center mt-20"
+        className="flex justify-center mt-12"
         animate={{ y: [0, 10, 0] }}
         transition={{
           duration: 2,
@@ -126,7 +100,7 @@ export function About() {
       >
         <button
           onClick={() => {
-            const element = document.querySelector("#skills");
+            const element = document.querySelector("#projects");
             if (element) {
               element.scrollIntoView({ behavior: "smooth" });
             }
@@ -137,7 +111,6 @@ export function About() {
           <ChevronDown size={24} className="text-purple-400" />
         </button>
       </motion.div>
-
     </SectionContainer>
   );
 }

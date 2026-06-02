@@ -11,19 +11,19 @@ const contactInfo = [
   {
     icon: <Mail size={24} />,
     label: "Email",
-    value: "hello@example.com",
-    href: "mailto:hello@example.com",
+    value: "nducmanh08@gmail.com",
+    href: "mailto:nducmanh08@gmail.com",
   },
   {
     icon: <Phone size={24} />,
     label: "Phone",
-    value: "+1 (555) 123-4567",
-    href: "tel:+15551234567",
+    value: "+61 414 343 129",
+    href: "tel:+61414343129",
   },
   {
     icon: <MapPin size={24} />,
     label: "Location",
-    value: "San Francisco, CA",
+    value: "Sydney, Australia",
     href: "#",
   },
 ];
@@ -224,11 +224,11 @@ export function Contact() {
             Prefer to send an email directly?
           </p>
           <a
-            href="mailto:hello@example.com"
+            href="mailto:nducmanh08@gmail.com"
             className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 font-medium transition-colors"
           >
             <Mail size={20} />
-            hello@example.com
+            nducmanh08@gmail.com
           </a>
         </motion.div>
       </motion.div>

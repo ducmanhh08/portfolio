@@ -1,13 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Star } from "lucide-react";
 import { SectionContainer } from "./SectionContainer";
 import { GlassCard } from "./GlassCard";
-import { Button } from "./Button";
 
-// Custom GitHub icon
 const GithubIcon = ({ size = 16 }: { size?: number }) => (
   <svg
     width={size}
@@ -40,52 +37,189 @@ const ExternalLinkIcon = ({ size = 16 }: { size?: number }) => (
   </svg>
 );
 
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8 },
+  },
+};
+
 const projects = [
   {
-    title: "E-Commerce Platform",
-    description:
-      "A full-stack e-commerce platform with real-time inventory management, payment integration, and analytics dashboard.",
-    image: "🛍️",
-    tags: ["React", "Node.js", "PostgreSQL", "Stripe"],
-    github: "https://github.com",
+    title: "Link AI Assistant",
+    overview:
+      "An full stack application and Chrome extension that enhances Google Drive with AI-powered content generation, summarization, and smart file management.",
+    tags: ["React", "Node.js", "Express.js", "Chrome Manifest V3", "OpenAI API", "Google Cloud Platform"],
+    github: "https://github.com/ducmanhh08/LINK-project.git",
     live: "https://example.com",
     featured: true,
-    stats: { rating: 4.9, reviews: 128 },
-  },
-  {
-    title: "AI Chat Application",
-    description:
-      "Real-time messaging platform with AI-powered suggestions and natural language processing capabilities.",
-    image: "💬",
-    tags: ["Next.js", "WebSocket", "OpenAI", "Prisma"],
-    github: "https://github.com",
-    live: "https://example.com",
-    featured: true,
-    stats: { rating: 4.8, reviews: 95 },
-  },
-  {
-    title: "Task Management Tool",
-    description:
-      "Collaborative task management application with real-time updates, team features, and productivity analytics.",
-    image: "✓",
-    tags: ["React", "Firebase", "Tailwind", "Redux"],
-    github: "https://github.com",
-    live: "https://example.com",
-    featured: false,
-  },
-  {
-    title: "Portfolio Template",
-    description:
-      "Modern, responsive portfolio template with dark theme and smooth animations for developers.",
-    image: "🎨",
-    tags: ["Next.js", "Tailwind", "Framer Motion"],
-    github: "https://github.com",
-    live: "https://example.com",
-    featured: false,
+    screenshots: [
+      {
+        label: "Landing Page",
+        src: "/landing-page.png",
+      },
+      {
+        label: "Drive Directory",
+        src: "/drive-directory.png",
+      },
+      {
+        label: "Chrome Extension Dashboard",
+        src: "/chrome-extension.png",
+      },
+    ],
+    description: [
+      "Integrated Google Drive API with OAuth 2.0, ensuring secure, real-time access and user file management.",
+      "Engineered an intelligent file analysis algorithm to read, interpret, and classify documents, generating automated suggestions for file renaming and folder reorganization.",
+    ],
   },
 ];
 
+function ProjectSection({
+  project,
+}: {
+  project: (typeof projects)[number];
+}) {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveSlide((current) =>
+        project.screenshots.length > 0
+          ? (current + 1) % project.screenshots.length
+          : 0
+      );
+    }, 5000);
+
+    return () => window.clearInterval(interval);
+  }, [project.screenshots.length]);
+
+  useEffect(() => {
+    setActiveSlide(0);
+  }, [project]);
+
+  return (
+    <motion.div
+      variants={itemVariants}
+      className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center"
+    >
+      <div className="space-y-6">
+        <div className="relative overflow-hidden rounded-[2rem] bg-transparent shadow-none">
+          <div className="p-10 min-h-[420px] flex flex-col justify-between gap-6 bg-transparent">
+            <div>
+              <span className="inline-flex rounded-full bg-purple-500/15 px-3 py-1 text-xs uppercase tracking-[0.18em] text-purple-200">
+                Screen {activeSlide + 1} of {project.screenshots.length}
+              </span>
+            </div>
+            <div className="flex-grow flex flex-col justify-center gap-4 text-center">
+              {project.screenshots[activeSlide].src ? (
+                <img
+                  src={project.screenshots[activeSlide].src}
+                  alt={`${project.screenshots[activeSlide].label} screenshot`}
+                  className="mx-auto max-h-[300px] w-full object-contain rounded-3xl"
+                />
+              ) : (
+                <div className="mx-auto flex h-[300px] w-full items-center justify-center rounded-3xl border border-dashed border-white/20 bg-white/5 px-6 text-sm text-gray-400">
+                  Add a screenshot source to display the preview.
+                </div>
+              )}
+              <div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-3">
+          {project.screenshots.map((screen, index) => (
+            <button
+              key={screen.label}
+              type="button"
+              onClick={() => setActiveSlide(index)}
+              className={`rounded-3xl border p-3 text-left transition-all duration-300 ${index === activeSlide
+                ? "border-purple-400/40 bg-white/10 text-white shadow-lg shadow-purple-500/10"
+                : "border-white/10 bg-white/5 text-gray-300 hover:border-white/20 hover:bg-white/10"
+                }`}
+            >
+              <p className="text-sm uppercase tracking-[0.18em] text-purple-200 mb-1">
+                {index + 1}
+              </p>
+              <p className="text-sm font-semibold">{screen.label}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <GlassCard className="p-10 h-full flex flex-col justify-between gap-8 glow bg-transparent border-none shadow-none" glow>
+        <div className="space-y-6">
+          <div className="flex flex-col gap-3">
+            <span className="text-sm uppercase tracking-[0.22em] text-purple-300/80">
+              {project.title}
+            </span>
+            <h3 className="text-4xl font-bold text-white">{project.title}</h3>
+            <p className="text-gray-300 text-lg leading-8">{project.overview}</p>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <h4 className="text-sm uppercase tracking-[0.18em] text-gray-400 mb-3">
+                Tech stack
+              </h4>
+              <div className="flex flex-wrap gap-3">
+                {project.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-gray-200"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-sm uppercase tracking-[0.18em] text-gray-400 mb-3">
+                Description
+              </h4>
+              <ul className="space-y-3 list-disc pl-5 text-gray-300 leading-7">
+                {project.description.map((point, index) => (
+                  <li key={`${project.title}-description-${index}`}>
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-sm font-medium text-white transition hover:border-purple-400/40 hover:bg-white/10"
+          >
+            <GithubIcon size={18} />
+            GitHub
+          </a>
+          <a
+            href={project.live}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-4 text-sm font-medium text-white transition hover:shadow-lg hover:shadow-purple-500/30"
+          >
+            <ExternalLinkIcon size={18} />
+            Live Demo
+          </a>
+        </div>
+      </GlassCard>
+    </motion.div>
+  );
+}
+
 export function Projects() {
+  const featuredProjects = projects.filter((project) => project.featured);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -97,15 +231,6 @@ export function Projects() {
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8 },
-    },
-  };
-
   return (
     <SectionContainer id="projects">
       <motion.div
@@ -114,7 +239,6 @@ export function Projects() {
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
       >
-        {/* Section Header */}
         <motion.div variants={itemVariants} className="mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             <span className="text-white">Featured </span>
@@ -123,156 +247,11 @@ export function Projects() {
           <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></div>
         </motion.div>
 
-        {/* Featured Projects */}
-        <motion.div
-          variants={containerVariants}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12"
-        >
-          {projects
-            .filter((p) => p.featured)
-            .map((project, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300, damping: 10 }}
-              >
-                <GlassCard className="p-8 h-full flex flex-col gap-6 group" glow={true}>
-                  {/* Project Header */}
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="text-2xl font-bold text-white mb-2">
-                        {project.title}
-                      </h3>
-                      {project.stats && (
-                        <div className="flex items-center gap-2">
-                          <div className="flex items-center gap-1">
-                            {[...Array(5)].map((_, i) => (
-                              <Star
-                                key={i}
-                                size={14}
-                                className={
-                                  i < Math.floor(project.stats.rating)
-                                    ? "fill-yellow-400 text-yellow-400"
-                                    : "text-gray-600"
-                                }
-                              />
-                            ))}
-                          </div>
-                          <span className="text-xs text-gray-400">
-                            ({project.stats.reviews})
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                    <span className="text-4xl">{project.image}</span>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-gray-300 flex-grow">{project.description}</p>
-
-                  {/* Tech Tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, tagIndex) => (
-                      <motion.span
-                        key={tagIndex}
-                        className="px-3 py-1 rounded-full text-xs font-medium bg-purple-500/20 text-purple-200 border border-purple-500/30"
-                        whileHover={{ scale: 1.1 }}
-                      >
-                        {tag}
-                      </motion.span>
-                    ))}
-                  </div>
-
-                  {/* Buttons */}
-                  <div className="flex gap-4 pt-4 border-t border-white/10">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-medium transition-all duration-300"
-                    >
-                      <GithubIcon />
-                      Code
-                    </a>
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-lg hover:shadow-purple-500/50 text-sm font-medium transition-all duration-300"
-                    >
-                      <ExternalLinkIcon size={16} />
-                      Live Demo
-                    </a>
-                  </div>
-                </GlassCard>
-              </motion.div>
-            ))}
-        </motion.div>
-
-        {/* Other Projects */}
-        <motion.div
-          variants={containerVariants}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
-        >
-          {projects
-            .filter((p) => !p.featured)
-            .map((project, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ scale: 1.02 }}
-              >
-                <GlassCard className="p-6 flex flex-col gap-4">
-                  <div className="flex items-start justify-between">
-                    <h4 className="text-lg font-bold text-white">
-                      {project.title}
-                    </h4>
-                    <span className="text-3xl">{project.image}</span>
-                  </div>
-                  <p className="text-sm text-gray-400">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag, tagIndex) => (
-                      <span
-                        key={tagIndex}
-                        className="px-2 py-1 rounded text-xs font-medium bg-blue-500/20 text-blue-200"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex gap-3 pt-4 border-t border-white/10">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-gray-300 hover:text-white transition-colors flex items-center gap-1"
-                    >
-                      <GithubIcon />
-                    </a>
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1"
-                    >
-                      <ExternalLinkIcon size={14} /> Live
-                    </a>
-                  </div>
-                </GlassCard>
-              </motion.div>
-            ))}
-        </motion.div>
-
-        {/* View All Button */}
-        <motion.div
-          variants={itemVariants}
-          className="flex justify-center pt-12"
-        >
-          <Button size="lg" variant="outline">
-            View All Projects
-          </Button>
-        </motion.div>
+        <div className="space-y-20">
+          {featuredProjects.map((project) => (
+            <ProjectSection key={project.title} project={project} />
+          ))}
+        </div>
       </motion.div>
     </SectionContainer>
   );

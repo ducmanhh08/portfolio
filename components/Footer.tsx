@@ -52,7 +52,7 @@ export function Footer() {
             {/* Branding */}
             <motion.div variants={itemVariants}>
               <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent mb-2">
-                Portfolio
+                Matthew Nguyen
               </h3>
               <p className="text-gray-400 text-sm leading-relaxed">
                 Building innovative web experiences with modern technologies
@@ -104,20 +104,10 @@ export function Footer() {
           >
             {/* Copyright */}
             <div className="flex items-center gap-1 text-sm text-gray-500">
-              <span>© {currentYear} Portfolio. Made with</span>
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                <Heart size={16} className="text-red-500 fill-red-500" />
-              </motion.div>
-              <span>by Developer</span>
+              <span>© {currentYear} Matthew Nguyen. All rights reserved.</span>
             </div>
 
-            {/* Tech Stack */}
-            <div className="text-xs text-gray-500">
-              Built with Next.js • TypeScript • Tailwind CSS • Framer Motion
-            </div>
+
 
             {/* Scroll to Top */}
             <motion.button

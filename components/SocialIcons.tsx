@@ -91,25 +91,19 @@ interface SocialLink {
 const defaultSocialLinks: SocialLink[] = [
   {
     icon: <GithubIcon size={20} />,
-    href: "https://github.com",
+    href: "https://github.com/ducmanhh08",
     label: "GitHub",
     ariaLabel: "Visit GitHub profile",
   },
   {
     icon: <LinkedinIcon size={20} />,
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/in/dmanhng811/",
     label: "LinkedIn",
     ariaLabel: "Visit LinkedIn profile",
   },
   {
-    icon: <TwitterIcon size={20} />,
-    href: "https://twitter.com",
-    label: "Twitter",
-    ariaLabel: "Visit Twitter profile",
-  },
-  {
     icon: <MailIcon size={20} />,
-    href: "mailto:contact@example.com",
+    href: "mailto:nducmanh08@gmail.com",
     label: "Email",
     ariaLabel: "Send email",
   },

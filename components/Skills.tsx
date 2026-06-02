@@ -15,6 +15,7 @@ const skills = [
       "Tailwind CSS",
       "Framer Motion",
       "Redux",
+      "Shadcn UI",
     ],
   },
   {
@@ -26,6 +27,8 @@ const skills = [
       "MongoDB",
       "GraphQL",
       "REST APIs",
+      "OpenAI API",
+      "Firebase",
     ],
   },
   {
@@ -33,8 +36,8 @@ const skills = [
     items: ["Git", "Docker", "AWS", "CI/CD", "Vercel", "GitHub Actions"],
   },
   {
-    category: "Design",
-    items: ["Figma", "UI/UX", "Responsive Design", "Web Animations", "A11y"],
+    category: "AI/Machine Learning",
+    items: ["NLP", "Computer Vision", "LLMs", "TensorFlow", "PyTorch"],
   },
 ];
 
