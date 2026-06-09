@@ -14,8 +14,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Premium Developer Portfolio",
-  description: "Modern premium portfolio website built with Next.js, showcasing projects and skills with a dark futuristic design",
+  title: "Matthew Nguyen Portfolio",
+  description: "Modern portfolio website built with Next.js, showcasing projects and skills with a sleek dark design",
   keywords: ["portfolio", "developer", "projects", "skills"],
   robots: "index, follow",
 };
