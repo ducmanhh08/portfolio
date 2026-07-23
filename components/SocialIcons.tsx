@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
 // Custom SVG icons
 const GithubIcon = ({ size = 20 }: { size?: number }) => (
@@ -120,6 +121,24 @@ export function SocialIcons({
   variant = "default",
   className = "",
 }: SocialIconsProps) {
+  const [offsets, setOffsets] = useState<Record<number, { x: number; y: number }>>({});
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const updateDeviceSupport = () => setIsTouchDevice(!mediaQuery.matches);
+
+    updateDeviceSupport();
+    mediaQuery.addEventListener("change", updateDeviceSupport);
+
+    return () => mediaQuery.removeEventListener("change", updateDeviceSupport);
+  }, []);
+
   const sizeClasses = {
     default: "w-10 h-10",
     minimal: "w-8 h-8",
@@ -132,20 +151,57 @@ export function SocialIcons({
     large: "size-6",
   };
 
+  const handleMouseMove = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    index: number
+  ) => {
+    if (prefersReducedMotion || isTouchDevice) {
+      return;
+    }
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left - rect.width / 2;
+    const y = event.clientY - rect.top - rect.height / 2;
+    const clampedX = Math.max(-10, Math.min(10, x / 12));
+    const clampedY = Math.max(-10, Math.min(10, y / 12));
+
+    setOffsets((prev) => ({
+      ...prev,
+      [index]: { x: clampedX, y: clampedY },
+    }));
+  };
+
+  const handleMouseLeave = (index: number) => {
+    setOffsets((prev) => ({
+      ...prev,
+      [index]: { x: 0, y: 0 },
+    }));
+  };
+
   return (
     <div className={`flex gap-4 ${className}`}>
-      {links.map((link, index) => (
-        <a
-          key={index}
-          href={link.href}
-          aria-label={link.ariaLabel || link.label}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`${sizeClasses[variant]} rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:shadow-lg hover:shadow-purple-500/30 hover:scale-110`}
-        >
-          <div className={iconSizes[variant]}>{link.icon}</div>
-        </a>
-      ))}
+      {links.map((link, index) => {
+        const offset = offsets[index] ?? { x: 0, y: 0 };
+
+        return (
+          <motion.a
+            key={index}
+            href={link.href}
+            aria-label={link.ariaLabel || link.label}
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseMove={(event) => handleMouseMove(event, index)}
+            onMouseLeave={() => handleMouseLeave(index)}
+            whileHover={{ scale: 1.08, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            animate={prefersReducedMotion || isTouchDevice ? { x: 0, y: 0, scale: 1 } : { x: offset.x, y: offset.y, scale: 1.03 }}
+            transition={{ type: "spring", stiffness: 220, damping: 20 }}
+            className={`${sizeClasses[variant]} rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:shadow-lg hover:shadow-purple-500/20`}
+          >
+            <div className={iconSizes[variant]}>{link.icon}</div>
+          </motion.a>
+        );
+      })}
     </div>
   );
 }

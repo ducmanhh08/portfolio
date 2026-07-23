@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronDown, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { SectionContainer } from "./SectionContainer";
 import { Button } from "./Button";
 import { GlassCard } from "./GlassCard";
@@ -23,33 +23,137 @@ const stats = [
   { label: "Lines of Code Committed", value: "10K+" },
 ];
 
-const TechLogo = ({ tech }: { tech: string }) => {
-  const logos: { [key: string]: string } = {
-    Java: "/java-logo.webp",
-    React: "/react-logo.png",
-    SpringBoot: "/springboot-logo.png",
-    NodeJS: "/nodejs-icon.svg",
-    Docker: "/docker.png",
-  };
+const terminalLines = [
+  "> whoami",
+  "Matthew Nguyen — Full-stack Engineer",
+  "> cat focus.txt",
+  "Building AI-powered tools people actually use",
+];
 
-  const logoSrc = logos[tech];
-  return logoSrc ? (
-    <img
-      src={logoSrc}
-      alt={`${tech} logo`}
-      className="w-12 h-12 object-contain"
-    />
-  ) : null;
-};
+function usePrefersReducedMotion() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => setPrefersReducedMotion(mediaQuery.matches);
+
+    mediaQuery.addEventListener("change", updatePreference);
+
+    return () => mediaQuery.removeEventListener("change", updatePreference);
+  }, []);
+
+  return prefersReducedMotion;
+}
+
+function TerminalIntro() {
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [completedLines, setCompletedLines] = useState<string[]>(() =>
+    prefersReducedMotion ? terminalLines : []
+  );
+  const [currentLineIndex, setCurrentLineIndex] = useState(() =>
+    prefersReducedMotion ? terminalLines.length : 0
+  );
+  const [currentCharIndex, setCurrentCharIndex] = useState(0);
+  const [isCursorVisible, setIsCursorVisible] = useState(() => !prefersReducedMotion);
+
+  useEffect(() => {
+    if (prefersReducedMotion || currentLineIndex >= terminalLines.length) {
+      return;
+    }
+
+    const currentLine = terminalLines[currentLineIndex];
+
+    if (currentCharIndex < currentLine.length) {
+      const timeout = window.setTimeout(() => {
+        setCurrentCharIndex((value) => value + 1);
+      }, 28);
+
+      return () => window.clearTimeout(timeout);
+    }
+
+    const timeout = window.setTimeout(() => {
+      setCompletedLines((prev) => [...prev, currentLine]);
+      setCurrentLineIndex((prev) => prev + 1);
+      setCurrentCharIndex(0);
+    }, 420);
+
+    return () => window.clearTimeout(timeout);
+  }, [currentCharIndex, currentLineIndex, prefersReducedMotion]);
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setIsCursorVisible((value) => !value);
+    }, 500);
+
+    return () => window.clearInterval(interval);
+  }, [prefersReducedMotion]);
+
+  const currentLine = currentLineIndex < terminalLines.length ? terminalLines[currentLineIndex] : "";
+  const renderedLines = completedLines.map((line, index) => (
+    <div key={`line-${index}`} className="whitespace-pre-wrap">
+      {line}
+    </div>
+  ));
+
+  if (currentLineIndex < terminalLines.length) {
+    renderedLines.push(
+      <div key="active-line" className="flex whitespace-pre-wrap">
+        <span>{currentLine.slice(0, currentCharIndex)}</span>
+        <span
+          className={`ml-0.5 text-cyan-300 transition-opacity duration-150 ${isCursorVisible ? "opacity-100" : "opacity-0"
+            }`}
+        >
+          ▋
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative w-full max-w-xl">
+      <div className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-950/80 shadow-2xl shadow-purple-950/30 backdrop-blur-xl">
+        <div className="flex items-center gap-2 border-b border-white/10 bg-slate-900/80 px-4 py-3">
+          <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+          <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+          <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+        </div>
+        <div className="p-4 font-mono text-sm leading-7 text-slate-200 sm:p-6 sm:text-[0.95rem]">
+          {prefersReducedMotion ? (
+            <div className="space-y-2 whitespace-pre-wrap">
+              {terminalLines.map((line, index) => (
+                <div key={`reduced-line-${index}`}>{line}</div>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-2">{renderedLines}</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function Hero() {
   const [currentTechIndex, setCurrentTechIndex] = useState(0);
-  const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTechIndex((prev) => (prev + 1) % technologies.length);
-    }, 1000);
+    }, 1400);
     return () => clearInterval(interval);
   }, []);
 
@@ -76,33 +180,33 @@ export function Hero() {
   };
 
   return (
-    <SectionContainer id="home" className="pt-28">
+    <SectionContainer id="home" className="relative overflow-hidden pt-28">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="hero-blob hero-blob--one" />
+        <div className="hero-blob hero-blob--two" />
+      </div>
+
       <motion.div
-        className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+        className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        {/* Left Content */}
         <div className="flex flex-col gap-8">
-          {/* Floating Badge */}
           <motion.div
             variants={itemVariants}
-            className="flex items-center gap-2 w-fit pt-7"
+            className="flex w-fit items-center gap-2 pt-7"
           >
-            <GlassCard className="px-4 py-2 flex items-center gap-2">
+            <GlassCard className="flex items-center gap-2 px-4 py-2">
               <Sparkles size={16} className="text-purple-400" />
-              <span className="text-sm text-gray-300">
-                Welcome to my portfolio
-              </span>
+              <span className="text-sm text-gray-300">Welcome to my portfolio</span>
             </GlassCard>
           </motion.div>
 
-          {/* Main Heading */}
           <motion.div variants={itemVariants}>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              <span className="block text-white mb-2">Building Intelligent</span>
-              <span className="block text-white mb-2">Systems with</span>
+            <h1 className="text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
+              <span className="mb-2 block text-white">Building Intelligent</span>
+              <span className="mb-2 block text-white">Systems with</span>
               <motion.span
                 key={currentTechIndex}
                 initial={{ opacity: 0, y: 10 }}
@@ -116,148 +220,55 @@ export function Hero() {
             </h1>
           </motion.div>
 
-          {/* Subtitle */}
           <motion.p
             variants={itemVariants}
-            className="text-lg md:text-xl text-gray-400 max-w-lg leading-relaxed"
+            className="max-w-lg text-lg leading-relaxed text-gray-400 md:text-xl"
           >
             Crafting beautiful, high-performance web experiences with modern
-            technologies. Let's build something extraordinary together.
+            technologies. Let&apos;s build something extraordinary together.
           </motion.p>
 
-          {/* CTA Buttons */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-col gap-4 sm:flex-row"
           >
-            <Button size="lg" onClick={() => {
-              const element = document.querySelector("#projects");
-              if (element) {
-                element.scrollIntoView({ behavior: "smooth" });
-              }
-            }}>
+            <Button
+              size="lg"
+              onClick={() => {
+                const element = document.querySelector("#projects");
+                if (element) {
+                  element.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            >
               View My Work
             </Button>
-            <Button size="lg" variant="outline" onClick={() => {
-              const element = document.querySelector("#contact");
-              if (element) {
-                element.scrollIntoView({ behavior: "smooth" });
-              }
-            }}>
-              Let's Connect
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => {
+                const element = document.querySelector("#contact");
+                if (element) {
+                  element.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            >
+              Let&apos;s Connect
             </Button>
           </motion.div>
 
-          {/* Social Icons */}
           <motion.div variants={itemVariants}>
-            <p className="text-sm text-gray-400 mb-4">Follow me on social</p>
+            <p className="mb-4 text-sm text-gray-400">Follow me on social</p>
             <SocialIcons />
           </motion.div>
         </div>
 
-        {/* Right Side - Animated Containers */}
         <motion.div
-          className="relative h-96 md:h-[500px] flex items-center justify-center"
+          className="relative flex min-h-[24rem] items-center justify-center rounded-[2rem] border border-white/10 bg-white/5 p-4 sm:min-h-[28rem] sm:p-8"
           variants={itemVariants}
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
         >
-          {/* Background gradient glow */}
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-blue-500/20 rounded-full blur-3xl opacity-60 animate-pulse"></div>
-
-          {/* Animated Tech Containers */}
-          {technologies.map((tech, index) => {
-            const angle = (index / technologies.length) * Math.PI * 2;
-            const radius = isHovering ? 120 : 80;
-            const x = Math.cos(angle) * radius;
-            const y = Math.sin(angle) * radius;
-
-            return (
-              <motion.div
-                key={index}
-                className="absolute"
-                animate={{
-                  x: isHovering ? x : 0,
-                  y: isHovering ? y : 0,
-                  scale: isHovering ? 1 : 0.8,
-                  rotate: isHovering ? index * 72 : 0,
-                }}
-                transition={{
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 20,
-                  duration: 0.6,
-                }}
-              >
-                <motion.div
-                  animate={{
-                    y: isHovering ? [0, -10, 0] : [0, -5, 0],
-                    rotate: isHovering ? 360 : 0,
-                  }}
-                  transition={{
-                    duration: isHovering ? 3 : 4,
-                    repeat: Infinity,
-                  }}
-                  className={`flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border-2 border-transparent cursor-pointer hover:border-white/50 transition-all duration-300`}
-                  style={{
-                    background: `linear-gradient(135deg, ${tech.color.includes("orange")
-                      ? "rgba(251, 146, 60, 0.1)"
-                      : tech.color.includes("blue")
-                        ? "rgba(59, 130, 246, 0.1)"
-                        : tech.color.includes("green")
-                          ? "rgba(34, 197, 94, 0.1)"
-                          : "rgba(30, 144, 255, 0.1)"
-                      })`,
-                    backdropFilter: "blur(10px)",
-                  }}
-                >
-                  <motion.div
-                    className={`text-white bg-gradient-to-r ${tech.color} p-3 rounded-xl`}
-                    whileHover={{ scale: 1.2, rotate: 10 }}
-                    transition={{ type: "spring" }}
-                  >
-                    <TechLogo tech={tech.name} />
-                  </motion.div>
-                  <span className="text-sm font-semibold text-gray-200 text-center">
-                    {tech.name}
-                  </span>
-                </motion.div>
-              </motion.div>
-            );
-          })}
-
-          {/* Center decorative element */}
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center"
-            animate={{
-              scale: [1, 1.1, 1],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-            }}
-          >
-            <motion.div
-              animate={{
-                boxShadow: isHovering
-                  ? "0 0 40px rgba(147, 51, 234, 0.4)"
-                  : "0 0 20px rgba(147, 51, 234, 0.2)",
-              }}
-              transition={{ duration: 0.3 }}
-              className="w-32 h-32 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur-3xl opacity-20"
-            ></motion.div>
-          </motion.div>
-
-          {/* Hover hint text */}
-          {!isHovering && (
-            <motion.div
-              className="absolute bottom-0 text-center"
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <p className="text-xs text-gray-500">Hover for animation</p>
-            </motion.div>
-          )}
+          <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-purple-500/10 via-transparent to-cyan-500/10 blur-3xl" />
+          <TerminalIntro />
         </motion.div>
       </motion.div>
 
@@ -266,15 +277,15 @@ export function Hero() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="mt-20 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
       >
         {stats.map((stat, index) => (
           <motion.div key={index} variants={itemVariants}>
-            <GlassCard className="relative p-6 h-full min-h-[200px] flex flex-col justify-between text-left group transition-all duration-300 rounded-[1.75rem] border border-white/10 bg-slate-950/80 shadow-xl shadow-black/15 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/25 hover:border-white/15">
-              <div className="absolute inset-x-6 top-6 h-px bg-white/10 rounded-full"></div>
+            <GlassCard className="relative flex h-full min-h-[200px] flex-col justify-between rounded-[1.75rem] border border-white/10 bg-slate-950/80 p-6 text-left shadow-xl shadow-black/15 transition-all duration-300 hover:-translate-y-1 hover:border-white/15 hover:shadow-2xl hover:shadow-black/25">
+              <div className="absolute inset-x-6 top-6 h-px rounded-full bg-white/10" />
               <div className="space-y-4">
                 <motion.div
-                  className="text-4xl md:text-5xl font-semibold text-white leading-tight"
+                  className="text-4xl font-semibold leading-tight text-white md:text-5xl"
                   animate={{ scale: [1, 1.03, 1] }}
                   transition={{
                     duration: 2,
@@ -288,12 +299,11 @@ export function Hero() {
                   {stat.label}
                 </p>
               </div>
-              <div className="mt-6 h-1 w-16 rounded-full bg-gradient-to-r from-purple-400 to-blue-400 opacity-80"></div>
+              <div className="mt-6 h-1 w-16 rounded-full bg-gradient-to-r from-purple-400 to-blue-400 opacity-80" />
             </GlassCard>
           </motion.div>
         ))}
       </motion.div>
-
     </SectionContainer>
   );
 }

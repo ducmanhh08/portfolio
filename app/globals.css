@@ -157,6 +157,36 @@ body::after {
   }
 }
 
+@keyframes heroDrift {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(1.5rem, -1.25rem, 0) scale(1.04);
+  }
+}
+
+@keyframes heroDriftAlt {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(-2rem, 1rem, 0) scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-blob {
+    animation: none !important;
+  }
+}
+
 @layer utilities {
   .animate-fade-in-up {
     @apply animate-[fadeInUp_0.6s_ease-out];
@@ -188,6 +218,33 @@ body::after {
 
   .animate-gradient {
     @apply animate-[gradientShift_3s_ease_infinite];
+  }
+
+  .hero-blob {
+    @apply absolute pointer-events-none rounded-full blur-3xl opacity-30;
+    animation-duration: 18s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    will-change: transform;
+    filter: saturate(1.2);
+  }
+
+  .hero-blob--one {
+    left: -6rem;
+    top: -3rem;
+    height: 18rem;
+    width: 18rem;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.32) 0%, rgba(124, 58, 237, 0.02) 65%, transparent 100%);
+    animation-name: heroDrift;
+  }
+
+  .hero-blob--two {
+    right: -5rem;
+    bottom: -3rem;
+    height: 20rem;
+    width: 20rem;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.28) 0%, rgba(59, 130, 246, 0.02) 65%, transparent 100%);
+    animation-name: heroDriftAlt;
   }
 
   .glass-effect {
