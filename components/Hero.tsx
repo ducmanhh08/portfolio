@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { SectionContainer } from "./SectionContainer";
 import { Button } from "./Button";
@@ -149,13 +150,15 @@ function TerminalIntro() {
 
 export function Hero() {
   const [currentTechIndex, setCurrentTechIndex] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
     const interval = setInterval(() => {
       setCurrentTechIndex((prev) => (prev + 1) % technologies.length);
     }, 1400);
     return () => clearInterval(interval);
-  }, []);
+  }, [prefersReducedMotion]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -189,7 +192,7 @@ export function Hero() {
       <motion.div
         className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2"
         variants={containerVariants}
-        initial="hidden"
+        initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
       >
         <div className="flex flex-col gap-8">
@@ -209,11 +212,11 @@ export function Hero() {
               <span className="mb-2 block text-white">Systems with</span>
               <motion.span
                 key={currentTechIndex}
-                initial={{ opacity: 0, y: 10 }}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.5 }}
-                className={`block gradient-text bg-gradient-to-r ${technologies[currentTechIndex].color} bg-300% animate-gradient`}
+                exit={prefersReducedMotion ? undefined : { opacity: 0, y: -10 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
+                className={`block gradient-text bg-gradient-to-r ${technologies[currentTechIndex].color} bg-300% ${prefersReducedMotion ? "" : "animate-gradient"}`}
               >
                 {technologies[currentTechIndex].name}
               </motion.span>
@@ -274,7 +277,7 @@ export function Hero() {
 
       <motion.div
         variants={containerVariants}
-        initial="hidden"
+        initial={prefersReducedMotion ? false : "hidden"}
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         className="mt-20 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
@@ -286,11 +289,11 @@ export function Hero() {
               <div className="space-y-4">
                 <motion.div
                   className="text-4xl font-semibold leading-tight text-white md:text-5xl"
-                  animate={{ scale: [1, 1.03, 1] }}
+                  animate={prefersReducedMotion ? { scale: 1 } : { scale: [1, 1.03, 1] }}
                   transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    delay: index * 0.2,
+                    duration: prefersReducedMotion ? 0 : 2,
+                    repeat: prefersReducedMotion ? 0 : Infinity,
+                    delay: prefersReducedMotion ? 0 : index * 0.2,
                   }}
                 >
                   {stat.value}

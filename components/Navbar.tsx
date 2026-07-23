@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 const navItems = [
   { label: "About", href: "#about" },
@@ -11,9 +11,18 @@ const navItems = [
   { label: "Experience", href: "#experience" },
 ];
 
+function MLogo() {
+  return (
+    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-purple-500 to-blue-500">
+      <span className="text-lg font-bold text-white">M</span>
+    </div>
+  );
+}
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,13 +46,6 @@ export function Navbar() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // M Logo component
-  const MLogo = () => (
-    <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-      <span className="text-white font-bold text-lg">M</span>
-    </div>
-  );
-
   return (
     <>
       {/* Desktop Navbar */}
@@ -53,13 +55,13 @@ export function Navbar() {
           : "flex bg-transparent border-b border-white/5 px-8 py-4 justify-center items-center"
           }`}
       >
-        <div className="flex items-center gap-50 max-w-7xl justify-between">
+        <div className="flex w-full max-w-5xl items-center justify-between gap-6">
           {/* Logo and Brand Name */}
           <motion.button
             onClick={handleLogoClick}
-            initial={{ opacity: 0, x: -20 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.5 }}
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
             <MLogo />
@@ -78,9 +80,9 @@ export function Navbar() {
                   e.preventDefault();
                   handleNavClick(item.href);
                 }}
-                initial={{ opacity: 0, y: -10 }}
+                initial={shouldReduceMotion ? false : { opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
+                transition={{ duration: shouldReduceMotion ? 0 : 0.5, delay: shouldReduceMotion ? 0 : index * 0.05 }}
                 className="text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 relative group"
               >
                 {item.label}
@@ -91,9 +93,9 @@ export function Navbar() {
 
           {/* Contact Button */}
           <motion.button
-            initial={{ opacity: 0, x: 20 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.5 }}
             onClick={(e) => {
               e.preventDefault();
               handleNavClick("#contact");
@@ -131,9 +133,9 @@ export function Navbar() {
       {/* Mobile Menu */}
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
+          exit={shouldReduceMotion ? undefined : { opacity: 0, y: -20 }}
           className="md:hidden fixed top-16 left-0 right-0 z-40 bg-black/40 backdrop-blur-md border-b border-white/5 p-4 flex flex-col gap-4"
         >
           {navItems.map((item) => (

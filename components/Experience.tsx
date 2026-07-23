@@ -1,155 +1,170 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { BriefcaseBusiness, GraduationCap } from "lucide-react";
 import { SectionContainer } from "./SectionContainer";
 import { GlassCard } from "./GlassCard";
 
-const experiences = [
+interface TimelineEntry {
+  id: string;
+  dateRange: string;
+  title: string;
+  organization: string;
+  bullets: string[];
+  type: "work" | "education";
+  description?: string;
+  tags?: string[];
+}
+
+const timelineEntries: TimelineEntry[] = [
   {
+    id: "home-invease-ai-engineer",
+    dateRange: "2024 — 2025",
     title: "AI Full Stack Engineer",
-    company: "Home Invease",
-    period: "2024 - 2025",
+    organization: "Home Invease",
+    type: "work",
     description:
       "Engineering mobile AI-powered solutions for home inventory applications.",
-    achievements: [
+    bullets: [
       "Developed integration workflows on integrated Ollama and LangSmith platforms to enhance user query handling and response generation.",
       "Implemented custom ChromaDB vector database management system to optimize data retrieval latency by 40% and storage for AI applications.",
       "Constructed automated item recognition pipelines using PyTorch and OpenCV, achieving 95% accuracy in identifying household items from user-uploaded images and receipts.",
     ],
     tags: ["React", "TypeScript", "Next.js", "FastAPI", "Firebase", "JWT"],
   },
+  {
+    id: "uow-computer-science",
+    dateRange: "2022 — 2025",
+    title: "Bachelor of Computer Science",
+    organization: "University of Wollongong (UOW)",
+    type: "education",
+    bullets: [
+      "Double Major in Artificial Intelligence & Big Data, and Software Engineering — graduated with Distinction in [subject names, leave as placeholder for me to fill in]",
+      "Co-founded a project that was pitched at a tradeshow and received $10,000 AUD in funding from iAccelerate",
+      "Explored disciplines across AI and Big Data throughout the degree, including NLP and LLMs",
+    ],
+  },
+  {
+    id: "gifted-high-school",
+    dateRange: "[years — placeholder]",
+    title: "High School for Gifted Students",
+    organization: "[institution — placeholder]",
+    type: "education",
+    bullets: ["", "", ""],
+  },
 ];
 
 export function Experience() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.8 },
-    },
-  };
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <SectionContainer id="experience">
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-      >
-        {/* Section Header */}
-        <motion.div variants={itemVariants} className="mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-white">Work </span>
+      <div>
+        <div className="mb-12 md:mb-16">
+          <h2 className="mb-4 text-4xl font-bold md:text-5xl">
+            <span className="text-white">Professional </span>
             <span className="gradient-text">Experience</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></div>
-        </motion.div>
+          <div className="h-1 w-20 rounded-full bg-gradient-to-r from-purple-500 to-blue-500" />
+        </div>
 
-        {/* Timeline */}
-        <div className="space-y-8">
-          {experiences.map((experience, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              className="relative"
-            >
-              {/* Timeline dot */}
-              <div className="absolute left-0 md:left-1/2 -translate-x-1/2 top-8 w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 z-10 md:flex hidden items-center justify-center">
-                <div className="w-2 h-2 bg-slate-950 rounded-full"></div>
-              </div>
+        <div role="list" className="relative space-y-8 md:space-y-10">
+          <div
+            aria-hidden="true"
+            className="absolute bottom-8 left-[1.125rem] top-8 w-px bg-white/15 md:left-[11.5rem]"
+          />
 
-              {/* Timeline line */}
-              <div className="absolute left-2 md:left-1/2 top-12 bottom-0 w-0.5 bg-gradient-to-b from-purple-500 to-transparent md:flex hidden"></div>
+          {timelineEntries.map((entry, index) => {
+            const isWork = entry.type === "work";
+            const accent = isWork
+              ? "text-purple-300 border-purple-400/50 bg-purple-500/15"
+              : "text-sky-300 border-sky-400/50 bg-sky-500/15";
+            const lineAccent = isWork ? "bg-purple-400" : "bg-sky-400";
+            const Icon = isWork ? BriefcaseBusiness : GraduationCap;
+            const hasNextEntry = index < timelineEntries.length - 1;
 
-              {/* Content - Alternating layout for desktop */}
-              <div
-                className={`md:grid md:grid-cols-2 gap-8 ${index % 2 === 0 ? "md:flex-row-reverse" : ""
-                  }`}
+            return (
+              <motion.div
+                key={entry.id}
+                role="listitem"
+                initial={shouldReduceMotion ? false : { opacity: 0, x: 28 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={
+                  shouldReduceMotion
+                    ? { duration: 0 }
+                    : { duration: 0.55, delay: index * 0.1, ease: "easeOut" }
+                }
+                className="group relative grid grid-cols-[2.25rem_minmax(0,1fr)] gap-x-3 md:grid-cols-[10rem_3rem_minmax(0,1fr)] md:gap-x-4"
               >
-                {/* Text Content */}
-                <div
-                  className={`md:col-span-1 ${index % 2 === 0
-                    ? "md:text-right md:pr-8"
-                    : "md:pl-8 md:text-left"
-                    }`}
-                >
-                  <GlassCard className="p-6 md:bg-transparent md:border-0 md:p-0">
-                    <div className="flex items-start gap-4 md:gap-0 md:block">
-                      <div className="md:hidden w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex-shrink-0 mt-1"></div>
-                      <div className="flex-1">
-                        <div className="inline-block md:block">
-                          <h3 className="text-xl font-bold text-white">
-                            {experience.title}
-                          </h3>
-                          <p className="text-purple-400 font-medium">
-                            {experience.company}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            {experience.period}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </GlassCard>
+                <div className="col-start-2 mb-2 pr-2 md:col-start-1 md:mb-0 md:pt-5 md:text-right">
+                  <time className="text-sm font-semibold tracking-wide text-slate-300">
+                    {entry.dateRange}
+                  </time>
                 </div>
 
-                {/* Description Content */}
-                <div className="md:col-span-1">
-                  <GlassCard className="p-6">
-                    <p className="text-gray-300 mb-4">{experience.description}</p>
+                <div className="col-start-1 row-start-1 flex justify-center pt-0.5 md:col-start-2 md:pt-4">
+                  <span
+                    className={`relative z-10 flex size-5 items-center justify-center rounded-full border bg-[#0b0f19] transition-all duration-300 group-hover:scale-110 ${accent}`}
+                  >
+                    <Icon aria-hidden="true" className="size-3" strokeWidth={2.5} />
+                  </span>
+                </div>
 
-                    {/* Achievements */}
-                    <div className="mb-4">
-                      <p className="text-sm font-semibold text-white mb-2">
-                        Key Achievements:
+                {hasNextEntry && (
+                  <div
+                    aria-hidden="true"
+                    className={`absolute left-[1.125rem] top-7 h-[calc(100%+2.5rem)] w-px origin-top scale-y-0 transition-transform duration-300 group-hover:scale-y-100 md:left-[11.5rem] ${lineAccent}`}
+                  />
+                )}
+
+                <GlassCard className="col-start-2 row-start-2 p-5 transition-all duration-300 group-hover:border-white/25 group-hover:bg-white/10 md:col-start-3 md:row-start-1 md:p-6">
+                  <div className="mb-5 flex flex-wrap items-start justify-between gap-x-4 gap-y-1">
+                    <div>
+                      <h3 className="text-xl font-bold text-white">{entry.title}</h3>
+                      <p className={`mt-1 font-medium ${isWork ? "text-purple-300" : "text-sky-300"}`}>
+                        {entry.organization}
                       </p>
-                      <ul className="space-y-2">
-                        {experience.achievements.map((achievement, idx) => (
-                          <li
-                            key={idx}
-                            className="text-sm text-gray-400 flex items-start gap-2"
-                          >
-                            <span className="text-purple-400 flex-shrink-0">
-                              •
-                            </span>
-                            {achievement}
-                          </li>
-                        ))}
-                      </ul>
                     </div>
+                    <span className={`rounded-full border px-2.5 py-1 text-xs font-semibold ${accent}`}>
+                      {isWork ? "Work" : "Education"}
+                    </span>
+                  </div>
 
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
-                      {experience.tags.map((tag, tagIndex) => (
+                  {entry.description && (
+                    <p className="mb-5 text-sm leading-6 text-slate-300">{entry.description}</p>
+                  )}
+
+                  <ul className="space-y-3">
+                    {entry.bullets.map((bullet, bulletIndex) => (
+                      <li
+                        key={`${entry.id}-bullet-${bulletIndex}`}
+                        className={`flex items-start gap-3 text-sm leading-6 ${bullet ? "text-slate-300" : "text-slate-500"}`}
+                      >
+                        <span aria-hidden="true" className={`mt-2 size-1.5 shrink-0 rounded-full ${lineAccent}`} />
+                        {bullet || <span className="italic">Add achievement</span>}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {entry.tags && (
+                    <div className="mt-5 flex flex-wrap gap-2 border-t border-white/10 pt-4">
+                      {entry.tags.map((tag) => (
                         <span
-                          key={tagIndex}
-                          className="px-2 py-1 rounded text-xs font-medium bg-blue-500/20 text-blue-200"
+                          key={tag}
+                          className="rounded bg-blue-500/20 px-2 py-1 text-xs font-medium text-blue-200"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
-                  </GlassCard>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                  )}
+                </GlassCard>
+              </motion.div>
+            );
+          })}
         </div>
-      </motion.div>
+      </div>
     </SectionContainer>
   );
 }
