@@ -76,7 +76,7 @@ export function GlobalPolish() {
         />
       )}
 
-      <button type="button" onClick={() => setIsOpen(true)} className="fixed bottom-4 right-4 z-40 flex items-center gap-2 rounded-full border border-white/15 bg-slate-950/85 px-3 py-2 text-xs text-slate-300 shadow-xl shadow-black/30 backdrop-blur focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-400" aria-label="Open command palette">
+      <button type="button" onClick={() => setIsOpen(true)} className="fixed bottom-4 right-4 z-40 flex cursor-pointer items-center gap-2 rounded-full border border-white/15 bg-slate-950/85 px-3 py-2 text-xs text-slate-300 shadow-xl shadow-black/30 backdrop-blur focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-400" aria-label="Open command palette">
         <Search size={15} aria-hidden="true" />
         <span className="hidden sm:inline">Jump to</span>
         <kbd className="hidden rounded border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-[0.65rem] sm:inline">⌘ K</kbd>

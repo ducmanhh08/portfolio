@@ -16,11 +16,14 @@ export function Projects() {
       >
         <div className="mb-10 md:mb-14">
           <p className="mb-3 font-mono text-xs uppercase tracking-[0.24em] text-purple-300">
-            01/   Selected work
+            01 / Selected work
           </p>
           <h2 className="max-w-2xl text-4xl font-bold tracking-tight text-white md:text-5xl">
             A closer look at what I build.
           </h2>
+          <p className="mt-5 max-w-3xl text-base leading-7 text-slate-400 sm:text-lg">
+            A selection of product-focused work, from AI-assisted tools to polished web experiences.
+          </p>
         </div>
 
         <div className="space-y-8">

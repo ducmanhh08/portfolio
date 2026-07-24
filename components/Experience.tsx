@@ -36,7 +36,7 @@ const timelineEntries: TimelineEntry[] = [
     id: "uow-computer-science",
     dateRange: "2022 — 2025",
     title: "Bachelor of Computer Science",
-    organization: "University of Wollongong (UOW)",
+    organization: "University of Wollongong",
     type: "education",
     bullets: [
       "Double Major in Artificial Intelligence & Big Data, and Software Engineering — graduated with Distinction in [subject names, leave as placeholder for me to fill in]",
@@ -46,11 +46,11 @@ const timelineEntries: TimelineEntry[] = [
   },
   {
     id: "gifted-high-school",
-    dateRange: "[years — placeholder]",
-    title: "High School for Gifted Students",
-    organization: "[institution — placeholder]",
+    dateRange: "2017 — 2021",
+    title: "Mathematics and Computer Science",
+    organization: "High School for Gifted Students, Hanoi, Vietnam",
     type: "education",
-    bullets: ["", "", ""],
+    bullets: ["Studied advanced mathematics and computer science courses, developing a strong foundation in both areas."],
   },
 ];
 
@@ -61,10 +61,16 @@ export function Experience() {
     <SectionContainer id="experience">
       <div>
         <div className="mb-12 md:mb-16">
+          <p className="mb-3 font-mono text-xs uppercase tracking-[0.24em] text-purple-300">
+            02 / Professional experience
+          </p>
           <h2 className="mb-4 text-4xl font-bold md:text-5xl">
             <span className="text-white">Professional </span>
             <span className="gradient-text">Experience</span>
           </h2>
+          <p className="max-w-3xl text-base leading-7 text-slate-400 sm:text-lg">
+            The roles, education, and practical work that shaped how I build software.
+          </p>
           <div className="h-1 w-20 rounded-full bg-gradient-to-r from-purple-500 to-blue-500" />
         </div>
 

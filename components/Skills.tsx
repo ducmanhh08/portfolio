@@ -147,7 +147,7 @@ export function Skills() {
       >
         <div className="mb-9 max-w-3xl md:mb-12">
           <p className="mb-3 font-mono text-xs uppercase tracking-[0.24em] text-purple-300">
-            03/ &nbsp; Capabilities
+            03 / Capabilities
           </p>
           <h2 className="text-4xl font-bold tracking-tight md:text-5xl">
             <span className="text-white">Skill </span>

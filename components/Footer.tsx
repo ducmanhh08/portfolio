@@ -2,7 +2,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, Mail, Phone } from "lucide-react";
+import { siteContact } from "@/lib/site";
 import { SocialIcons } from "./SocialIcons";
 
 export function Footer() {
@@ -31,10 +32,10 @@ export function Footer() {
   };
 
   const links = [
-    { label: "Home", href: "#home" },
-    { label: "About", href: "#about" },
     { label: "Projects", href: "#projects" },
-    { label: "Contact", href: "#contact" },
+    { label: "Experience", href: "#experience" },
+    { label: "Skills", href: "#skills" },
+    { label: "About", href: "#about" },
   ];
 
   return (
@@ -47,9 +48,7 @@ export function Footer() {
           viewport={{ once: true }}
           className="space-y-8"
         >
-          {/* Content Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8">
-            {/* Branding */}
+          <div className="mb-8 grid grid-cols-1 gap-12 md:grid-cols-[1fr_auto] md:items-start">
             <motion.div variants={itemVariants}>
               <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent mb-2">
                 Matthew Nguyen
@@ -58,14 +57,33 @@ export function Footer() {
                 Building innovative web experiences with modern technologies
                 and creative solutions.
               </p>
+              <address className="mt-5 flex flex-col items-start gap-2 not-italic">
+                <a
+                  href={`mailto:${siteContact.email}`}
+                  className="inline-flex items-center gap-2 text-sm text-slate-300 transition-colors hover:text-purple-300"
+                >
+                  <Mail aria-hidden="true" size={16} className="text-purple-300" />
+                  {siteContact.email}
+                </a>
+                <a
+                  href={`tel:${siteContact.phone.replace(/\s/g, "")}`}
+                  className="inline-flex items-center gap-2 text-sm text-slate-300 transition-colors hover:text-purple-300"
+                >
+                  <Phone aria-hidden="true" size={16} className="text-purple-300" />
+                  {siteContact.phone}
+                </a>
+              </address>
             </motion.div>
 
-            {/* Quick Links */}
-            <motion.div variants={itemVariants}>
+            <motion.div variants={itemVariants} className="md:text-right">
               <h4 className="text-white font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2">
                 {links.map((link, index) => (
-                  <li key={index}>
+                  <motion.li
+                    key={index}
+                    whileHover={{ x: 4 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 24 }}
+                  >
                     <a
                       href={link.href}
                       onClick={(e) => {
@@ -75,29 +93,21 @@ export function Footer() {
                           element.scrollIntoView({ behavior: "smooth" });
                         }
                       }}
-                      className="text-gray-400 hover:text-purple-400 transition-colors text-sm"
+                      className="cursor-pointer text-sm text-gray-400 transition-colors hover:text-purple-400"
                     >
                       {link.label}
                     </a>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </motion.div>
-
-            {/* Social Links */}
-            <motion.div variants={itemVariants}>
-              <h4 className="text-white font-semibold mb-4">Connect</h4>
-              <SocialIcons variant="minimal" />
-            </motion.div>
           </div>
 
-          {/* Divider */}
           <motion.div
             variants={itemVariants}
             className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
           />
 
-          {/* Bottom Section */}
           <motion.div
             variants={itemVariants}
             className="flex flex-col md:flex-row items-center justify-between gap-4"
@@ -109,16 +119,22 @@ export function Footer() {
 
 
 
-            {/* Scroll to Top */}
-            <motion.button
-              onClick={scrollToTop}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
-              aria-label="Scroll to top"
-            >
-              <ArrowUp size={18} className="text-purple-400" />
-            </motion.button>
+            <div className="flex items-center gap-3">
+              <SocialIcons
+                variant="minimal"
+                includeEmail={false}
+                className="gap-2"
+              />
+              <motion.button
+                onClick={scrollToTop}
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="cursor-pointer rounded-lg border border-white/10 bg-white/5 p-2 transition-colors hover:bg-white/10"
+                aria-label="Scroll to top"
+              >
+                <ArrowUp size={18} className="text-purple-400" />
+              </motion.button>
+            </div>
           </motion.div>
         </motion.div>
       </div>

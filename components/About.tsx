@@ -2,24 +2,24 @@
 
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import { BookOpen, Code2, MapPin } from "lucide-react";
+import { BookOpen, Code2, Download, MapPin } from "lucide-react";
 import { SectionContainer } from "./SectionContainer";
 
 const quickFacts = [
   {
     icon: MapPin,
     label: "Based in",
-    value: "Vancouver, BC",
+    value: "Sydney, Australia",
   },
   {
     icon: BookOpen,
     label: "Learning",
-    value: "Next.js patterns",
+    value: "AWS, LangChain, LLMs",
   },
   {
     icon: Code2,
     label: "Building",
-    value: "Product-led apps",
+    value: "AI-powered web apps, design systems, and developer tools",
   },
 ] as const;
 
@@ -38,10 +38,16 @@ export function About() {
         }}
       >
         <div className="mb-8 md:mb-10">
+          <p className="mb-3 font-mono text-xs uppercase tracking-[0.24em] text-purple-300">
+            04 / About me
+          </p>
           <h2 className="mb-4 text-4xl font-bold md:text-5xl">
             <span className="text-white">About </span>
             <span className="gradient-text">Me</span>
           </h2>
+          <p className="max-w-3xl text-base leading-7 text-slate-400 sm:text-lg">
+            A little about the person, principles, and interests behind the work.
+          </p>
           <div className="h-1 w-20 rounded-full bg-gradient-to-r from-purple-500 to-blue-500" />
         </div>
 
@@ -90,6 +96,14 @@ export function About() {
                 </li>
               ))}
             </ul>
+            <a
+              href="/ManhNguyen_SWE_Resume.pdf"
+              download
+              className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-purple-400/60 bg-purple-500/10 px-5 py-3 text-sm font-semibold text-purple-200 transition-all hover:border-purple-300 hover:bg-purple-500/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-400"
+            >
+              <Download aria-hidden="true" size={17} />
+              Download Resume
+            </a>
           </div>
         </div>
       </motion.div>

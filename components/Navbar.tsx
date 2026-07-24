@@ -5,10 +5,10 @@ import { Menu, X, ArrowRight } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
+  { label: "Projects", href: "#projects", id: "projects" },
+  { label: "Experience", href: "#experience", id: "experience" },
+  { label: "Skills", href: "#skills", id: "skills" },
+  { label: "About", href: "#about", id: "about" },
 ];
 
 function MLogo() {
@@ -22,6 +22,7 @@ function MLogo() {
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
@@ -33,8 +34,27 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const sections = navItems
+      .map((item) => document.getElementById(item.id))
+      .filter((section): section is HTMLElement => section !== null);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const activeEntry = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (activeEntry) setActiveSection(activeEntry.target.id);
+      },
+      { rootMargin: "-25% 0px -55% 0px", threshold: [0.1, 0.35, 0.6] }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   const handleNavClick = (href: string) => {
     setIsOpen(false);
+    setActiveSection(href.slice(1));
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -62,7 +82,7 @@ export function Navbar() {
             initial={shouldReduceMotion ? false : { opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.5 }}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            className="flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-80"
           >
             <MLogo />
             <span className="text-lg font-bold bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent p-2">
@@ -80,13 +100,14 @@ export function Navbar() {
                   e.preventDefault();
                   handleNavClick(item.href);
                 }}
+                aria-current={activeSection === item.id ? "page" : undefined}
                 initial={shouldReduceMotion ? false : { opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: shouldReduceMotion ? 0 : 0.5, delay: shouldReduceMotion ? 0 : index * 0.05 }}
-                className="text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 relative group"
+                className={`group relative cursor-pointer text-sm font-medium transition-colors duration-300 ${activeSection === item.id ? "text-white" : "text-gray-300 hover:text-white"}`}
               >
                 {item.label}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 group-hover:w-full transition-all duration-300"></span>
+                <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 ${activeSection === item.id ? "w-full" : "w-0 group-hover:w-full"}`}></span>
               </motion.a>
             ))}
           </div>
@@ -114,7 +135,7 @@ export function Navbar() {
       <nav className="md:hidden fixed top-0 left-0 right-0 z-50 bg-black/40 backdrop-blur-md border-b border-white/5 px-4 py-4 flex justify-between items-center">
         <button
           onClick={handleLogoClick}
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          className="flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-80"
         >
           <MLogo />
           <span className="text-base font-bold bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
@@ -123,7 +144,7 @@ export function Navbar() {
         </button>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+          className="cursor-pointer rounded-lg p-2 transition-colors hover:bg-white/10"
           aria-label="Toggle menu"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -146,7 +167,8 @@ export function Navbar() {
                 e.preventDefault();
                 handleNavClick(item.href);
               }}
-              className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+              aria-current={activeSection === item.id ? "page" : undefined}
+              className={`cursor-pointer rounded-lg px-4 py-2 transition-colors ${activeSection === item.id ? "bg-white/10 text-white" : "text-gray-300 hover:bg-white/10 hover:text-white"}`}
             >
               {item.label}
             </a>

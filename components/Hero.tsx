@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useReducedMotion } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { Download, Sparkles } from "lucide-react";
 import { SectionContainer } from "./SectionContainer";
 import { Button } from "./Button";
 import { GlassCard } from "./GlassCard";
 import { SocialIcons } from "./SocialIcons";
+import { AvailabilityBadge } from "./AvailabilityBadge";
 
 const technologies = [
   { name: "Java", color: "from-orange-500 to-red-500" },
@@ -26,7 +27,7 @@ const stats = [
 
 const terminalLines = [
   "> whoami",
-  "Matthew Nguyen — Full-stack Engineer",
+  "Matthew Nguyen — AI full-stack Engineer",
   "> cat focus.txt",
   "Building AI-powered tools people actually use",
 ];
@@ -92,6 +93,20 @@ function TerminalIntro() {
   }, [currentCharIndex, currentLineIndex, prefersReducedMotion]);
 
   useEffect(() => {
+    if (prefersReducedMotion || currentLineIndex < terminalLines.length) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setCompletedLines([]);
+      setCurrentLineIndex(0);
+      setCurrentCharIndex(0);
+    }, 3000);
+
+    return () => window.clearTimeout(timeout);
+  }, [currentLineIndex, prefersReducedMotion]);
+
+  useEffect(() => {
     if (prefersReducedMotion) {
       return;
     }
@@ -132,7 +147,7 @@ function TerminalIntro() {
           <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
           <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
         </div>
-        <div className="p-4 font-mono text-sm leading-7 text-slate-200 sm:p-6 sm:text-[0.95rem]">
+        <div className="min-h-52 p-4 font-mono text-sm leading-7 text-slate-200 sm:p-6 sm:text-[0.95rem]">
           {prefersReducedMotion ? (
             <div className="space-y-2 whitespace-pre-wrap">
               {terminalLines.map((line, index) => (
@@ -202,7 +217,7 @@ export function Hero() {
           >
             <GlassCard className="flex items-center gap-2 px-4 py-2">
               <Sparkles size={16} className="text-purple-400" />
-              <span className="text-sm text-gray-300">Welcome to my portfolio</span>
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-gray-300">00 / Introduction</span>
             </GlassCard>
           </motion.div>
 
@@ -223,12 +238,18 @@ export function Hero() {
             </h1>
           </motion.div>
 
+          <motion.div variants={itemVariants}>
+            <AvailabilityBadge />
+          </motion.div>
+
           <motion.p
             variants={itemVariants}
             className="max-w-lg text-lg leading-relaxed text-gray-400 md:text-xl"
           >
             Crafting beautiful, high-performance web experiences with modern
-            technologies. Let&apos;s build something extraordinary together.
+            technologies. 
+            <br />
+            Let&apos;s build something extraordinary together.
           </motion.p>
 
           <motion.div
@@ -246,18 +267,14 @@ export function Hero() {
             >
               View My Work
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => {
-                const element = document.querySelector("#contact");
-                if (element) {
-                  element.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
+            <a
+              href="/ManhNguyen_SWE_Resume.pdf"
+              download
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-purple-500 px-8 py-4 text-lg font-medium text-purple-400 transition-all duration-300 hover:bg-purple-500/10 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
-              Let&apos;s Connect
-            </Button>
+              <Download aria-hidden="true" size={20} />
+              Download Resume
+            </a>
           </motion.div>
 
           <motion.div variants={itemVariants}>

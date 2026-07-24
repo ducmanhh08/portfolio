@@ -15,7 +15,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "font-medium transition-all duration-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary";
+    "cursor-pointer rounded-lg font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary";
 
   const variants = {
     primary:

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { siteContact } from "@/lib/site";
 
-// Custom SVG icons
+// Shared social profile definitions and button treatment.
 const GithubIcon = ({ size = 20 }: { size?: number }) => (
   <svg
     width={size}
@@ -60,20 +61,20 @@ interface SocialLink {
 const defaultSocialLinks: SocialLink[] = [
   {
     icon: <GithubIcon size={20} />,
-    href: "https://github.com/ducmanhh08",
+    href: siteContact.github,
     label: "GitHub",
     ariaLabel: "Visit GitHub profile",
   },
   {
     icon: <LinkedinIcon size={20} />,
-    href: "https://www.linkedin.com/in/dmanhng811/",
+    href: siteContact.linkedin,
     label: "LinkedIn",
     ariaLabel: "Visit LinkedIn profile",
   },
   {
     icon: <MailIcon size={20} />,
-    href: "mailto:nducmanh08@gmail.com",
-    label: "Email",
+    href: `mailto:${siteContact.email}`,
+    label: "Gmail",
     ariaLabel: "Send email",
   },
 ];
@@ -82,12 +83,14 @@ interface SocialIconsProps {
   links?: SocialLink[];
   variant?: "default" | "minimal" | "large";
   className?: string;
+  includeEmail?: boolean;
 }
 
 export function SocialIcons({
   links = defaultSocialLinks,
   variant = "default",
   className = "",
+  includeEmail = true,
 }: SocialIconsProps) {
   const [offsets, setOffsets] = useState<Record<number, { x: number; y: number }>>({});
   const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -108,9 +111,9 @@ export function SocialIcons({
   }, []);
 
   const sizeClasses = {
-    default: "w-10 h-10",
-    minimal: "w-8 h-8",
-    large: "w-14 h-14",
+    default: "size-12",
+    minimal: "size-10",
+    large: "size-14",
   };
 
   const iconSizes = {
@@ -146,27 +149,37 @@ export function SocialIcons({
     }));
   };
 
+  const visibleLinks = links.filter(
+    (link) => includeEmail || link.label !== "Gmail"
+  );
+
   return (
-    <div className={`flex gap-4 ${className}`}>
-      {links.map((link, index) => {
+    <div className={`flex gap-3 ${className}`} aria-label="Social profiles">
+      {visibleLinks.map((link, index) => {
         const offset = offsets[index] ?? { x: 0, y: 0 };
 
         return (
           <motion.a
             key={index}
             href={link.href}
-            aria-label={link.ariaLabel || link.label}
-            target="_blank"
-            rel="noopener noreferrer"
+            aria-label={`${link.ariaLabel || link.label}${link.href.startsWith("http") ? " (opens in a new tab)" : ""}`}
+            target={link.href.startsWith("http") ? "_blank" : undefined}
+            rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
             onMouseMove={(event) => handleMouseMove(event, index)}
             onMouseLeave={() => handleMouseLeave(index)}
             whileHover={{ scale: 1.08, y: -2 }}
             whileTap={{ scale: 0.95 }}
             animate={prefersReducedMotion || isTouchDevice ? { x: 0, y: 0, scale: 1 } : { x: offset.x, y: offset.y, scale: 1.03 }}
             transition={{ type: "spring", stiffness: 220, damping: 20 }}
-            className={`${sizeClasses[variant]} rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:shadow-lg hover:shadow-purple-500/20`}
+            className={`group relative flex ${sizeClasses[variant]} cursor-pointer items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 transition-[transform,background-color,border-color,color] duration-200 hover:scale-110 hover:border-purple-400/50 hover:bg-purple-500/15 hover:text-purple-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-400 active:scale-95 active:border-purple-400/70 active:bg-purple-500/25 active:text-white`}
           >
             <div className={iconSizes[variant]}>{link.icon}</div>
+            <span
+              role="tooltip"
+              className="pointer-events-none absolute bottom-[calc(100%+0.65rem)] left-1/2 z-10 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-md border border-white/10 bg-slate-900 px-2.5 py-1.5 text-xs font-medium text-white opacity-0 shadow-xl transition-[opacity,transform] duration-150 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
+            >
+              {link.label}
+            </span>
           </motion.a>
         );
       })}
