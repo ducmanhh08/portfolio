@@ -3,10 +3,9 @@
 I build intelligent, product-focused systems that turn complex workflows into useful experiences—from AI-assisted productivity tools to polished, responsive web applications.
 
 <p>
-  <a href="https://your-portfolio-url.com"><img src="https://img.shields.io/badge/Visit%20the%20live%20site-7C3AED?style=for-the-badge&logo=vercel&logoColor=white" alt="Visit the live portfolio" /></a>
+  <a href="https://matthewng.vercel.app"><img src="https://img.shields.io/badge/Visit%20the%20live%20site-7C3AED?style=for-the-badge&logo=vercel&logoColor=white" alt="Visit the live portfolio" /></a>
 </p>
 
-> Replace `https://your-portfolio-url.com` above with the deployed portfolio URL. No public deployment URL is configured in this repository yet.
 
 ## Stack & architecture
 
