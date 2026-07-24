@@ -19,7 +19,7 @@ const technologies = [
 ];
 
 const stats = [
-  { label: "Years of Professional Experience", value: "1+" },
+  { label: "Years of Professional Experience", value: "2+" },
   { label: "Years in Software Development", value: "4+" },
   { label: "Projects Completed", value: "10+" },
   { label: "Lines of Code Committed", value: "10K+" },
@@ -268,7 +268,7 @@ export function Hero() {
               View My Work
             </Button>
             <a
-              href="/ManhNguyen_SWE_Resume.pdf"
+              href="/ManhNguyen_Resume.pdf"
               download
               className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-purple-500 px-8 py-4 text-lg font-medium text-purple-400 transition-all duration-300 hover:bg-purple-500/10 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >

@@ -39,9 +39,9 @@ const timelineEntries: TimelineEntry[] = [
     organization: "University of Wollongong",
     type: "education",
     bullets: [
-      "Double Major in Artificial Intelligence & Big Data, and Software Engineering — graduated with Distinction in [subject names, leave as placeholder for me to fill in]",
-      "Co-founded a project that was pitched at a tradeshow and received $10,000 AUD in funding from iAccelerate",
-      "Explored disciplines across AI and Big Data throughout the degree, including NLP and LLMs",
+      "Double Major in Artificial Intelligence & Big Data, and Software Engineering — graduated with Distinction in Advanced Programming, Database Systems, and Modern AI and Big Data courses.",
+      "Co-founded a 10-member project pitched at stakeholder tradeshow and received $10,000 AUD funding from UOW iAccelerate",
+      "Explored AI and Big Data principles throughout the degree, including machine learning, NLP, and data analytics, and applied them in practical projects and researches.",
     ],
   },
   {
@@ -50,7 +50,10 @@ const timelineEntries: TimelineEntry[] = [
     title: "Mathematics and Computer Science",
     organization: "High School for Gifted Students, Hanoi, Vietnam",
     type: "education",
-    bullets: ["Studied advanced mathematics and computer science courses, developing a strong foundation in both areas."],
+    bullets: [
+      "Studied advanced mathematics and programming courses, developing a strong foundation in both areas.",
+      "IMC Gold Medalist 2017 in Singapore, representing Vietnam in the International Mathematics Competition for high school students.",
+    ],
   },
 ];
 

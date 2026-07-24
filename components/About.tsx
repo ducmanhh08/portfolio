@@ -14,7 +14,7 @@ const quickFacts = [
   {
     icon: BookOpen,
     label: "Learning",
-    value: "AWS, LangChain, LLMs",
+    value: "Next.js, AWS, LangChain",
   },
   {
     icon: Code2,
@@ -79,8 +79,7 @@ export function About() {
               </p>
               <p>
                 I&apos;m especially interested in AI-assisted tools, design systems, and developer
-                experience. Away from the keyboard, I&apos;m usually reading about product design
-                or experimenting with a new idea.
+                experience. Away from the keyboard, I usually update myself on the latest tech trends, exercise my body, and explore the outdoors with my camera in hand.
               </p>
             </div>
 
@@ -97,7 +96,7 @@ export function About() {
               ))}
             </ul>
             <a
-              href="/ManhNguyen_SWE_Resume.pdf"
+              href="/ManhNguyen_Resume.pdf"
               download
               className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-purple-400/60 bg-purple-500/10 px-5 py-3 text-sm font-semibold text-purple-200 transition-all hover:border-purple-300 hover:bg-purple-500/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-400"
             >
