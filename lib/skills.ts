@@ -47,63 +47,71 @@ export const atlasProjects: AtlasProject[] = [
   {
     id: "link-ai",
     name: "Link AI",
-    skills: ["openai-api", "nextjs", "postgresql", "git"],
+    skills: [
+      "openai-api", 
+      "nextjs", 
+      "typescript",
+      "postgresql", 
+      "git",
+      "gcp",
+      "rest-graphql",
+    ],
   },
   {
     id: "nimbus-ops",
     name: "Nimbus Ops",
     skills: [
-      "langchain",
+      "python",
       "spring-boot",
       "postgresql",
       "azure",
       "docker",
-      "ci-cd",
     ],
   },
   {
-    id: "echo-vision",
-    name: "Echo Vision",
+    id: "loan-default-prediction",
+    name: "Loan Default Prediction",
     skills: [
       "pytorch",
       "tensorflow",
       "react",
-      "typescript",
-      "azure",
       "docker",
+      "python"
     ],
   },
   {
-    id: "atlas-search",
-    name: "Atlas Search",
+    id: "home-invease",
+    name: "Home Invease",
     skills: [
       "llms",
-      "langchain",
+      "pytorch",
       "chromadb",
-      "java",
-      "spring-boot",
+      "tensorflow",
+      "java-spring",
+      "typescript",
+      "azure",
       "ci-cd",
     ],
   },
   {
-    id: "pulseboard",
-    name: "Pulseboard",
+    id: "moji",
+    name: "Moji Chat",
     skills: [
-      "openai-api",
+      "nextjs",
       "react",
-      "typescript",
+      "mongodb",
       "rest-graphql",
-      "git",
+      "ci-cd",
     ],
   },
 ];
 
 export const skills: SkillNode[] = [
   {
-    id: "spring-boot",
-    name: "Spring Boot",
+    id: "java-spring",
+    name: "Java & Spring Boot",
     category: "software-engineering",
-    projects: ["nimbus-ops", "atlas-search"],
+    projects: ["nimbus-ops", "home-invease"],
     position: { x: 11, y: 12 },
   },
   {
@@ -128,10 +136,10 @@ export const skills: SkillNode[] = [
     position: { x: 44, y: 31 },
   },
   {
-    id: "java",
-    name: "Java",
+    id: "python",
+    name: "Python",
     category: "software-engineering",
-    projects: ["atlas-search"],
+    projects: ["loan-default-prediction"],
     position: { x: 31, y: 46 },
   },
   {
@@ -149,8 +157,8 @@ export const skills: SkillNode[] = [
     position: { x: 82, y: 12 },
   },
   {
-    id: "git",
-    name: "Git",
+    id: "gcp",
+    name: "Google Cloud Platform",
     category: "cloud-devops",
     projects: ["link-ai", "pulseboard"],
     position: { x: 61, y: 34 },
@@ -159,7 +167,7 @@ export const skills: SkillNode[] = [
     id: "ci-cd",
     name: "CI/CD",
     category: "cloud-devops",
-    projects: ["nimbus-ops", "atlas-search"],
+    projects: ["moji", "home-invease"],
     position: { x: 86, y: 36 },
   },
   {
@@ -171,9 +179,9 @@ export const skills: SkillNode[] = [
   },
   {
     id: "rest-graphql",
-    name: "REST / GraphQL",
+    name: "RESTful / GraphQL",
     category: "data-apis",
-    projects: ["pulseboard"],
+    projects: ["link-ai", "moji", "home-invease"],
     position: { x: 35, y: 59 },
   },
   {
@@ -184,10 +192,10 @@ export const skills: SkillNode[] = [
     position: { x: 20, y: 84 },
   },
   {
-    id: "langchain",
-    name: "LangChain",
-    category: "ai-ml",
-    projects: ["nimbus-ops", "atlas-search"],
+    id: "mongodb",
+    name: "MongoDB",
+    category: "data-apis",
+    projects: ["nimbus-ops", "link-ai"],
     position: { x: 54, y: 57 },
   },
   {

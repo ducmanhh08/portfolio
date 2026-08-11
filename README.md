@@ -45,4 +45,4 @@ Open [http://localhost:3000](http://localhost:3000).
 
 - Email: [nducmanh08@gmail.com](mailto:nducmanh08@gmail.com)
 - GitHub: [@ducmanhh08](https://github.com/ducmanhh08)
-- LinkedIn: [Matthew Nguyen](https://www.linkedin.com/in/dmanhng811/)
+- LinkedIn: [Manh Nguyen](https://www.linkedin.com/in/dmanhng811/)

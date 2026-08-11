@@ -41,7 +41,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </div>
 
           <span className="flex items-center gap-2 text-sm font-medium text-white opacity-100 transition-[opacity,transform] duration-300 md:translate-y-1 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus-visible:translate-y-0 md:group-focus-visible:opacity-100 motion-reduce:transform-none motion-reduce:transition-none">
-            View case study
+            View more
             <ArrowUpRight
               aria-hidden="true"
               className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none"

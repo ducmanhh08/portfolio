@@ -96,7 +96,7 @@ export function About() {
               ))}
             </ul>
             <a
-              href="/ManhNguyen_Resume.pdf"
+              href="/ManhNguyen_SWE_Resume.pdf"
               download
               className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-purple-400/60 bg-purple-500/10 px-5 py-3 text-sm font-semibold text-purple-200 transition-all hover:border-purple-300 hover:bg-purple-500/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-400"
             >

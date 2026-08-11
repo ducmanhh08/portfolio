@@ -27,7 +27,7 @@ const stats = [
 
 const terminalLines = [
   "> whoami",
-  "Matthew Nguyen — AI full-stack Engineer",
+  "Matthew Nguyen — AI Full-stack Engineer",
   "> cat focus.txt",
   "Building AI-powered tools people actually use",
 ];
@@ -268,7 +268,7 @@ export function Hero() {
               View My Work
             </Button>
             <a
-              href="/ManhNguyen_Resume.pdf"
+              href="/ManhNguyen_SWE_Resume.pdf"
               download
               className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-purple-500 px-8 py-4 text-lg font-medium text-purple-400 transition-all duration-300 hover:bg-purple-500/10 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
